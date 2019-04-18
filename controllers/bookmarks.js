@@ -22,14 +22,17 @@ router.get('/:title', (req, res) => {
 
   // Step 5
   Bookmark
+  // express automatically populates req.params for us
    .find({title: req.params.title})
    .then(bookmarks => res.json(bookmarks))
 })
 
 router.post('/', (req, res) => {
   //Step 6
+  // create a bookmark from the contents of the body
   Bookmark
     .create(req.body)
+    // send the newly created record back as json
     .then(bookmark => res.json(bookmark))
 })
 
@@ -46,18 +49,18 @@ router.put('/:title', (req, res) => {
   - Remind students they can re-seed whenever and get their default data back
 */
 
-  Bookmark.findOneAndUpdate({title: req.params.title}, req.body)
-  .then(bookmark => {
-    res.json(bookmark)
-  })
+  Bookmark
+    .findOneAndUpdate({title: req.params.title}, req.body)
+    .then(bookmark => res.json(bookmark))
 })
 
 router.delete('/:title', (req, res) => {
   // Step 8
-  Bookmark.findOneAndRemove({title: req.params.title})
-  .then(bookmark => {
-    res.json(bookmark)
-  })
+  Bookmark
+    .findOneAndRemove({title: req.params.title})
+    .then(bookmark => {
+      res.json(bookmark)
+    })
 })
 
 

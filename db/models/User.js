@@ -7,5 +7,8 @@ const UserSchema = mongoose.Schema({
 		ref: "Bookmark",
 		type: mongoose.Schema.Types.ObjectId
 	}]
-
 })
+
+let user = mongoose.model('User', UserSchema)
+
+module.exports = user
