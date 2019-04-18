@@ -1,67 +1,64 @@
-const express = require('express')
+const express = require("express")
 const router = express.Router()
 
-const Bookmark = require('../db/models/Bookmark')
+// import the bookmark model
+const Bookmark = require("../db/models/Bookmark")
 
-router.get('/', (req, res) => {
-  // Step 1
-   // res.send('<h1>Sup Multiverse?</h1>')
+router.get("/", (req, res) => {
+  // option 1, just send some html back
+  // res.send('<h1>Sup Multiverse?</h1>')
 
-  // Step 2
-   // res.json({hello: 'multiverse'})
+  // option 2, send a regular object back
+  // res.json({hello: 'multiverse'})
 
-  // Step 3
-  Bookmark
-   .find({})
-   .then(results => res.json(results))
+  // option 3, use the model to look up data in mongodb
+  // send back the data as json
+  Bookmark.find({}).then(allBookmarks => res.json(allBookmarks))
 })
 
-router.get('/:title', (req, res) => {
-  // Step 4
-  // res.send('this is the title: ' + req.params.title)
+router.get("/:title", (req, res) => {
+  // option 1
+  // send back the title parameter in a string
+  // res.send('this is the title param: ' + req.params.title)
 
-  // Step 5
+  // option 2
+  // use the model to look up a bookmark by title
   Bookmark
-  // express automatically populates req.params for us
-   .find({title: req.params.title})
-   .then(bookmarks => res.json(bookmarks))
+    // express automatically populates req.params for us
+    .find({ title: req.params.title })
+    .then(bookmarks => res.json(bookmarks))
 })
 
-router.post('/', (req, res) => {
-  //Step 6
+router.post("/", (req, res) => {
+  let newBookmark = req.body
+  // option 1
+  // console log the request body
+  // send the request back just as we received it
+  // console.log(newBookmark)
+  // res.json(newBookmark)
+
+  // option 2
   // create a bookmark from the contents of the body
-  Bookmark
-    .create(req.body)
-    // send the newly created record back as json
+  Bookmark.create(req.body)
+    // send the new record back as json
     .then(bookmark => res.json(bookmark))
 })
 
-router.put('/:title', (req, res) => {
+router.put("/:title", (req, res) => {
+  // look up the bookmark by title
+  // use .findOneAndUpdate to find the title
+  // and update with the new values from the request body
 
-// Step 7
-//Postman notes
-/*
-  - Use A PUT Method
-  - Use this route localhost:8080/api/bookmarks/Base%20CS
-  - In the header set the Content-Type => application/json
-  - Here is a body you can use to update => { "title": "the daoist experience has overwritten Base CS"}
-  - Any thing you put in the body to update will overwrite what is currently in the document
-  - Remind students they can re-seed whenever and get their default data back
-*/
-
-  Bookmark
-    .findOneAndUpdate({title: req.params.title}, req.body)
-    .then(bookmark => res.json(bookmark))
+  Bookmark.findOneAndUpdate({ title: req.params.title }, req.body).then(
+    bookmark => res.json(bookmark)
+  )
 })
 
-router.delete('/:title', (req, res) => {
+router.delete("/:title", (req, res) => {
   // Step 8
-  Bookmark
-    .findOneAndRemove({title: req.params.title})
-    .then(bookmark => {
-      res.json(bookmark)
-    })
+  Bookmark.findOneAndRemove({ title: req.params.title }).then(bookmark => {
+    res.json(bookmark)
+  })
 })
-
 
 module.exports = router

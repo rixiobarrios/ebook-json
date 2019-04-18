@@ -17,5 +17,5 @@ const BookmarkSchema = new mongoose.Schema({
 // a model is used to query and change data in the database
 let bookmark = mongoose.model('Bookmark', BookmarkSchema)
 
-//export the instantiated model
+//export the instantiated model. Think of this like creating a new class
 module.exports = bookmark
