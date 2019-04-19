@@ -25,4 +25,12 @@ router.post("/", (req, res) => {
 })
 
 router.put("/:email", (req, res) => {})
+
+router.delete('/:id', (req, res) => {
+  console.log(req.params)
+  User.findOneAndDelete({_id: req.params.id})
+  .then(deleted => {
+    res.json(deleted)
+  })
+})
 module.exports = router
