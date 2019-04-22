@@ -33,8 +33,8 @@ router.post("/", (req, res) => {
   let newBookmark = req.body
   // option 1
   // console log the request body
-  // send the request back just as we received it
   // console.log(newBookmark)
+  // and send the request back just as we received it
   // res.json(newBookmark)
 
   // option 2
@@ -47,7 +47,7 @@ router.post("/", (req, res) => {
 router.put("/:title", (req, res) => {
   // look up the bookmark by title
   // use .findOneAndUpdate to find the title
-  // and update with the new values from the request body
+  // update with the new values passed in from request body
 
   Bookmark.findOneAndUpdate({ title: req.params.title }, req.body).then(
     bookmark => res.json(bookmark)
@@ -55,8 +55,9 @@ router.put("/:title", (req, res) => {
 })
 
 router.delete("/:title", (req, res) => {
-  // Step 8
-  Bookmark.findOneAndRemove({ title: req.params.title }).then(bookmark => {
+  // use title as a param to find the record we want to remove
+  Bookmark.findOneAndDelete({ title: req.params.title }).then(bookmark => {
+    // send back the deleted document
     res.json(bookmark)
   })
 })

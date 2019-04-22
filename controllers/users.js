@@ -24,13 +24,16 @@ router.post("/", (req, res) => {
   })
 })
 
-router.put("/:email", (req, res) => {})
+router.put("/:id", (req, res) => {
+  User.findOneAndUpdate({ _id: req.params.id }, req.body).then(prevRecord => {
+    res.json(prevRecord)
+  })
+})
 
-router.delete('/:id', (req, res) => {
-  console.log(req.params)
-  User.findOneAndDelete({_id: req.params.id})
-  .then(deleted => {
+router.delete("/:id", (req, res) => {
+  User.findOneAndDelete({ _id: req.params.id }).then(deleted => {
     res.json(deleted)
   })
 })
+
 module.exports = router
